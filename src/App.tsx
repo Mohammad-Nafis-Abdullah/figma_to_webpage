@@ -1,12 +1,12 @@
 import React from "react"
-import useGlobalState, { action, initialState, stateSchema } from "./hooks/useGlobalState";
+import useGlobalState, { action, initialState, reducerReturnSchema, } from "./hooks/useGlobalState";
 import SideBar from "./SideBar/SideBar";
 import Dashboard from "./Dashboard/Dashboard";
 
-export const StateContext = React.createContext({state:initialState,dispatch:(param:action):void => {param}});
+export const StateContext = React.createContext({state:initialState,dispatch:(param:action<null>):void => {param}});
 
 function App() {
-  const {state,dispatch}:{state: stateSchema;dispatch: (param: action) => void;} = useGlobalState();
+  const {state,dispatch}:reducerReturnSchema = useGlobalState();
 
   return (
     <StateContext.Provider value={{state,dispatch}}>
