@@ -10,7 +10,7 @@ function App() {
 
   return (
     <StateContext.Provider value={{state,dispatch}}>
-      <main className="h-screen bg-black flex flex-col">
+      <main className="h-[809px] bg-black flex flex-col w-[1440px] mx-auto">
         <div className="bg-[#3772FF] h-[36.48px] flex justify-center items-center">
           <p className="text-white poppins font-semibold text-[18px] leading-[18px]">
             Lorem Ipsum is simply dummy text of the printing
