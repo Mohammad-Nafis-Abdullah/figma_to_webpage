@@ -1,35 +1,30 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React from "react"
+import useGlobalState, { action, initialState, stateSchema } from "./hooks/useGlobalState";
+import SideBar from "./SideBar/SideBar";
+import Dashboard from "./Dashboard/Dashboard";
+
+export const StateContext = React.createContext({state:initialState,dispatch:(param:action):void => {param}});
 
 function App() {
-  const [count, setCount] = useState(0)
+  const {state,dispatch}:{state: stateSchema;dispatch: (param: action) => void;} = useGlobalState();
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <StateContext.Provider value={{state,dispatch}}>
+      <main className="h-screen bg-black flex flex-col">
+        <div className="bg-[#3772FF] h-[36.48px] flex justify-center items-center">
+          <p className="text-white poppins font-semibold text-[18px] leading-[18px]">
+            Lorem Ipsum is simply dummy text of the printing
+          </p>
+        </div>
+
+        <section className="flex h-full">
+          <SideBar/>
+          <Dashboard/>
+        </section>
+
+      </main>
+    </StateContext.Provider>
+  );
 }
 
 export default App
