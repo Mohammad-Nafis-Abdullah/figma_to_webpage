@@ -1,4 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useReducer } from "react";
+import { listSchema } from "./useLocalStorage";
 
 // required schemas
 export interface todoSchema{
@@ -9,12 +11,13 @@ export interface todoSchema{
 }
 export interface stateSchema{
   selected_Todo: todoSchema | null;
+  stored_list: listSchema[] | null;
 }
-export type dispatchSchema = <T extends todoSchema | null>(param: action<T>) => void;
+export type dispatchSchema = (param: action) => void;
 
-export interface action<T>{
+export interface action{
   type:string,
-  value:T
+  value:any;
 }
 export interface reducerReturnSchema{
   state: stateSchema;
@@ -26,16 +29,20 @@ export interface reducerReturnSchema{
 // initial state
 export const initialState:stateSchema = {
   selected_Todo:null,
+  stored_list:null,
 }
 
 
-const reducer = <T extends todoSchema | null>(state:stateSchema,action:action<T>):stateSchema=> {
+const reducer = (state:stateSchema,action:action):stateSchema=> {
     switch (action.type) {
       case "selected_Todo":
-        return {...state,selected_Todo:action.value};
-    
+        return { ...state, selected_Todo: action.value };
+
+      case "stored_list":
+        return { ...state, stored_list: action.value };
+
       default:
-        return {...state};
+        return { ...state };
     }
 }
 

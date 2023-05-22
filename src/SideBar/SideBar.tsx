@@ -39,7 +39,7 @@ const topMenus:{img:string,title:string,select:boolean}[] = [
 
 const SideBar = () => {
   return (
-    <div className="w-[251px] pt-[33.52px] pr-[26.06px] pb-[27.36px] pl-[9px] inter flex flex-col">
+    <div className="max-w-[251px] w-full pt-[33.52px] pr-[26.06px] pb-[27.36px] pl-[9px] inter flex flex-col">
 
       {/* top menu section */}
       <section className="grow">

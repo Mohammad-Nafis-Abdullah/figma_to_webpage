@@ -3,7 +3,7 @@ import useGlobalState, { action, initialState, reducerReturnSchema, } from "./ho
 import SideBar from "./SideBar/SideBar";
 import Dashboard from "./Dashboard/Dashboard";
 
-export const StateContext = React.createContext({state:initialState,dispatch:(param:action<null>):void => {param}});
+export const StateContext = React.createContext({state:initialState,dispatch:(param:action):void => {param}});
 
 function App() {
   const {state,dispatch}:reducerReturnSchema = useGlobalState();
@@ -17,7 +17,7 @@ function App() {
           </p>
         </div>
 
-        <section className="flex h-full">
+        <section className="flex h-[calc(100%-36.48px)]">
           <SideBar/>
           <Dashboard/>
         </section>
