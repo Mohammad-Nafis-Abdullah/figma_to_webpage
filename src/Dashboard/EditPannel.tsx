@@ -1,9 +1,12 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useContext, useEffect, useState } from 'react';
 import leftArrow from '../assets/leftArrow.svg'
 import { StateContext } from '../App';
+import useLocalStorage from '../hooks/useLocalStorage';
 
 const EditPannel = ({className}:{className:string}) => {
-  const { state:{selected_Todo}, dispatch } = useContext(StateContext);
+  const { state:{selected_Todo,selected_List}, dispatch } = useContext(StateContext);
+  const {updateTodo} = useLocalStorage();
   const [title,setTitle] = useState('');
   const [description,setDescription] = useState('');
 
@@ -15,13 +18,21 @@ const EditPannel = ({className}:{className:string}) => {
     }
   },[selected_Todo])
 
-  const handleSubmit = (e: { preventDefault: ()=>void })=> {
+  const handleSubmit = (e:any)=> {
     e.preventDefault();
 
-    console.log('clicked');
+    // console.log(selected_Todo);
+
+    if (title && description && selected_Todo && selected_List) {
+      updateTodo(selected_List,{...selected_Todo,description,title})
+    } else {
+      window.alert("Doesn't insert empty field");
+    }
 
     dispatch({type:'selected_Todo',value:null});
-      return;
+    setTitle('');
+    setDescription('');
+    e.target.reset()
   }
 
   return (
@@ -33,11 +44,11 @@ const EditPannel = ({className}:{className:string}) => {
       </section>
 
       <form onSubmit={handleSubmit} className='flex flex-col gap-y-[8px]'>
-        <input onChange={(e)=>setTitle(e.target.value)} type="text" className='min-w-0 h-[51px] w-full bg-[#242731] whitespace-nowrap overflow-ellipsis px-[17px] py-[12px] text-white font-bold poppins text-[20px] leading-[24px] rounded-[12px]' placeholder='Todo Title' value={title} disabled={!title} />
+        <input onChange={(e)=>setTitle(e.target.value)} type="text" className='min-w-0 h-[51px] w-full bg-[#242731] whitespace-nowrap overflow-ellipsis px-[17px] py-[12px] text-[#A6A6A6] font-bold poppins text-[20px] leading-[24px] rounded-[12px]' placeholder='Todo Title' value={title} />
 
-        <textarea onChange={(e)=>setDescription(e.target.value)} className='min-w-0 h-[110px] resize-none overflow-y-auto w-full bg-[#242731] p-[19px] inter text-[14px] leading-[16px] font-medium rounded-[12px]' placeholder='Description' value={description} disabled={!description} ></textarea>
+        <textarea onChange={(e)=>setDescription(e.target.value)} className='min-w-0 h-[110px] resize-none overflow-y-auto w-full bg-[#242731] p-[19px] inter text-[14px] text-[#808191] leading-[16px] font-medium rounded-[12px]' placeholder='Description' value={description} ></textarea>
         
-        <input type="submit" value="Save" className='min-w-0 mt-[8px] text-[16px] leading-[28.75px] inter font-semibold text-center pt-[3px] pb-[2px] rounded-[10px] bg-[#3772FF] text-white cursor-pointer active:scale-[0.99] disabled:cursor-not-allowed disabled:scale-100 disabled:opacity-30' disabled={!title || !description}/>
+        <input type="submit" value="Save" className='min-w-0 mt-[8px] text-[16px] leading-[28.75px] inter font-semibold text-center pt-[3px] pb-[2px] rounded-[10px] bg-[#3772FF] text-white cursor-pointer active:scale-[0.99] disabled:cursor-not-allowed disabled:scale-100 disabled:opacity-30' disabled={!selected_Todo || !selected_List}/>
       </form>
 
     </div>

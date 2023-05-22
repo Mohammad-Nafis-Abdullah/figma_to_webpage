@@ -10,6 +10,7 @@ export interface todoSchema{
   isDone: boolean
 }
 export interface stateSchema{
+  selected_List: string | null;
   selected_Todo: todoSchema | null;
   stored_list: listSchema[] | null;
 }
@@ -28,6 +29,7 @@ export interface reducerReturnSchema{
 
 // initial state
 export const initialState:stateSchema = {
+  selected_List:null,
   selected_Todo:null,
   stored_list:null,
 }
@@ -35,7 +37,10 @@ export const initialState:stateSchema = {
 
 const reducer = (state:stateSchema,action:action):stateSchema=> {
     switch (action.type) {
-      case "selected_Todo":
+      case "selected_List":
+        return { ...state, selected_List: action.value };
+      
+        case "selected_Todo":
         return { ...state, selected_Todo: action.value };
 
       case "stored_list":

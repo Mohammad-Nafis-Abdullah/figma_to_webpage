@@ -2,9 +2,13 @@
 import useLocalStorage, { listSchema } from "../hooks/useLocalStorage";
 import todoLogo from "../assets/todo.svg";
 import plus from "../assets/plus.svg";
+import edit from "../assets/edit.svg";
 import { todoSchema } from "../hooks/useGlobalState";
+import { useContext } from "react";
+import { StateContext } from "../App";
 
 const TaskList = ({ list }: { list: listSchema }) => {
+  const {state,dispatch} = useContext(StateContext);
   const { addTodo } = useLocalStorage();
 
   const handleSubmit = (e: any) => {
@@ -64,14 +68,25 @@ const TaskList = ({ list }: { list: listSchema }) => {
         />
       </form>
 
-      <section className="space-y-[10px] overflow-y-auto overflow-x-hidden h-[calc(100%-200px)] pr-1">
+      <section className="space-y-[10px] overflow-y-auto overflow-x-hidden h-[calc(100%-175px)] pr-1">
         {Object.values(list.todos)
           .reverse()
           .map((todo: todoSchema) => {
             return (
               <form
+                onSubmit={(e)=> {
+                    e.preventDefault();
+                    dispatch({
+                      type:'selected_List',
+                      value:list.Id,
+                    })
+                    dispatch({
+                      type:'selected_Todo',
+                      value:todo,
+                    })
+                }}
                 key={todo.id}
-                className="w-[286px] h-[116px] bg-[#191B20] p-[10.05px] rounded-[16px] space-y-[13px] mt-[4.87px]"
+                className={`w-[286px] h-[116px] bg-[#191B20] p-[10.05px] rounded-[16px] space-y-[13px] mt-[4.87px] ${state.selected_Todo?.id===todo.id && 'selected'}`}
               >
                 <div className="flex items-center gap-x-[3.85px]">
                   <img className="w-6 h-6" src={todoLogo} alt="Todo Icon" />
@@ -83,11 +98,11 @@ const TaskList = ({ list }: { list: listSchema }) => {
                   />
                   <button
                     type="submit"
-                    className="px-[7.5px] py-[6px] bg-[#353945] rounded-full"
+                    className="rounded-full"
                   >
                     <img
-                      className="w-[13.49px] h-[14.33px]"
-                      src={plus}
+                      className="w-[30px] h-[30px]"
+                      src={edit}
                       alt="Add Todo"
                     />
                   </button>

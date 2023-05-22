@@ -25,3 +25,16 @@
 ::-webkit-scrollbar-track {
   background-color: transparent;
 }
+
+.selected{
+  position: relative;
+}
+.selected::before{
+  content: '';
+  position: absolute;
+  width: 4px;
+  background-color: #3772FF;
+  left: 0;
+  height: 102px;
+  border-radius: 16px;
+}
